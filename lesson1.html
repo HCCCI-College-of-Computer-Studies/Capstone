@@ -1459,6 +1459,14 @@
                 </div>
             `;
 
+            // Style the element to be off-screen but rendered
+            pdfContent.style.position = 'absolute';
+            pdfContent.style.left = '-9999px';
+            pdfContent.style.top = '0';
+
+            // Append to body so it can be rendered
+            document.body.appendChild(pdfContent);
+
             // Generate filename with sanitization to prevent security issues
             let safeStudentName = studentName !== '_______________' 
                 ? studentName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_').substring(0, 50)
@@ -1476,8 +1484,11 @@
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Generate and download PDF
-            html2pdf().set(opt).from(pdfContent).save();
+            // Generate and download PDF, then clean up
+            html2pdf().set(opt).from(pdfContent).save().then(function() {
+                // Remove the temporary element after PDF generation
+                document.body.removeChild(pdfContent);
+            });
         }
     </script>
 </body>
