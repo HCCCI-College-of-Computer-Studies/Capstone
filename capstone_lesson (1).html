@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Capstone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #0f4c75;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #3282b8;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #1b6ca8;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        p, li {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #b3e5fc 100%);
+            border-left: 5px solid #0f4c75;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .project-areas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .project-card {
+            background: white;
+            border: 2px solid #3282b8;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(15, 76, 117, 0.3);
+            border-color: #0f4c75;
+        }
+
+        .project-card h4 {
+            color: #0f4c75;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        button {
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(15, 76, 117, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0f4c75 0%, #3282b8 100%);
+            transition: width 0.5s;
+        }
+
+        .quiz-section {
+            background: #f9fafb;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.15em;
+        }
+
+        .options {
+            margin-left: 10px;
+        }
+
+        .option {
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #3282b8;
+            background: #e3f2fd;
+        }
+
+        .option input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option.correct {
+            border-color: #10b981;
+            background: #d1fae5;
+        }
+
+        .option.incorrect {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .submit-quiz {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quiz-actions button {
+            flex: 1;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #0288d1 0%, #0277bd 100%);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results.pass {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+        }
+
+        .results.fail {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+        }
+
+        .completion-badge {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .badge {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            animation: bounce 1s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Introduction to Capstone</h1>
+            <p>A Comprehensive Guide to Capstone Projects</p>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <!-- Section 1: Overview -->
+            <div class="section active" id="section1">
+                <h2>I. Overview of Programming Languages</h2>
+                
+                <p>Before diving into capstone projects, it's essential to understand the programming landscape. Modern software development relies on various programming languages, each designed for specific purposes and applications.</p>
+
+                <div class="highlight-box">
+                    <h3>Common Programming Languages</h3>
+                    <ul>
+                        <li><strong>Python:</strong> Versatile language for web development, data science, AI, and automation</li>
+                        <li><strong>Java:</strong> Enterprise applications, Android development, and large-scale systems</li>
+                        <li><strong>JavaScript:</strong> Web development, both frontend and backend (Node.js)</li>
+                        <li><strong>C++:</strong> System programming, game development, and performance-critical applications</li>
+                        <li><strong>C#:</strong> Windows applications, game development (Unity), and enterprise software</li>
+                        <li><strong>PHP:</strong> Server-side web development and content management systems</li>
+                        <li><strong>Swift/Kotlin:</strong> iOS and Android mobile application development</li>
+                    </ul>
+                </div>
+
+                <p>Your capstone project will likely involve one or more of these languages depending on your chosen area and objectives. Understanding their strengths helps you select the right tools for your project.</p>
+            </div>
+
+            <!-- Section 2: What is Capstone -->
+            <div class="section" id="section2">
+                <h2>II. What is Capstone?</h2>
+                
+                <p>A capstone project is a culminating academic experience that demonstrates the knowledge, skills, and competencies you've acquired throughout your program of study. It serves as a bridge between academic learning and professional practice.</p>
+
+                <div class="highlight-box">
+                    <h3>Key Characteristics of Capstone Projects</h3>
+                    <ul>
+                        <li><strong>Integration:</strong> Combines multiple concepts and skills learned throughout your course</li>
+                        <li><strong>Application:</strong> Applies theoretical knowledge to solve real-world problems</li>
+                        <li><strong>Demonstration:</strong> Showcases your competency and readiness for professional work</li>
+                        <li><strong>Independence:</strong> Requires self-directed learning and project management</li>
+                        <li><strong>Innovation:</strong> Encourages creative problem-solving and original thinking</li>
+                    </ul>
+                </div>
+
+                <h3>Purpose and Importance</h3>
+                <p>Capstone projects serve multiple important purposes in your academic journey. They provide an opportunity to demonstrate mastery of program outcomes, develop professional portfolio pieces, gain practical experience in project planning and execution, and build confidence in your technical and problem-solving abilities. Additionally, they prepare you for real-world challenges in your chosen field and often serve as talking points during job interviews.</p>
+            </div>
+
+            <!-- Section 3: Capstone vs Thesis -->
+            <div class="section" id="section3">
+                <h2>III. Capstone vs. Thesis</h2>
+                
+                <p>While both capstone projects and theses are significant academic undertakings, they differ in fundamental ways. Understanding these differences helps you approach your capstone with the right mindset and expectations.</p>
+
+                <div class="highlight-box">
+                    <h3>Capstone Project</h3>
+                    <ul>
+                        <li><strong>Focus:</strong> Practical application and problem-solving</li>
+                        <li><strong>Outcome:</strong> Working product, system, or solution</li>
+                        <li><strong>Approach:</strong> Applied, hands-on development</li>
+                        <li><strong>Evaluation:</strong> Based on functionality, usability, and implementation</li>
+                        <li><strong>Documentation:</strong> Technical documentation and user guides</li>
+                        <li><strong>Timeframe:</strong> Typically one or two semesters</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Thesis</h3>
+                    <ul>
+                        <li><strong>Focus:</strong> Original research and theoretical contribution</li>
+                        <li><strong>Outcome:</strong> Research findings and scholarly paper</li>
+                        <li><strong>Approach:</strong> Research methodology and analysis</li>
+                        <li><strong>Evaluation:</strong> Based on research rigor and academic contribution</li>
+                        <li><strong>Documentation:</strong> Formal academic paper with extensive literature review</li>
+                        <li><strong>Timeframe:</strong> Often extends beyond one academic year</li>
+                    </ul>
+                </div>
+
+                <p>In essence, a capstone emphasizes doing and building, while a thesis emphasizes discovering and proving. Both are valuable, but capstone projects are particularly relevant for preparing students for industry roles.</p>
+            </div>
+
+            <!-- Section 4: Project Areas -->
+            <div class="section" id="section4">
+                <h2>IV. Capstone Project Areas</h2>
+                
+                <p>Capstone projects in computer science and information technology can span numerous domains. Here are the major project areas you can explore:</p>
+
+                <div class="project-areas">
+                    <div class="project-card">
+                        <h4>🌐 Web Development</h4>
+                        <p>Full-stack applications, e-commerce platforms, content management systems, social networking sites, and web-based tools.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>📱 Mobile Applications</h4>
+                        <p>iOS and Android apps, cross-platform solutions, mobile games, productivity tools, and location-based services.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>🤖 Artificial Intelligence</h4>
+                        <p>Machine learning models, chatbots, recommendation systems, computer vision applications, and natural language processing tools.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>📊 Data Science</h4>
+                        <p>Data analysis platforms, visualization dashboards, predictive analytics tools, and business intelligence systems.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>🔒 Cybersecurity</h4>
+                        <p>Security audit tools, encryption systems, vulnerability scanners, network monitoring applications, and authentication systems.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>🎮 Game Development</h4>
+                        <p>2D/3D games, educational games, simulation software, game engines, and interactive entertainment.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>☁️ Cloud Computing</h4>
+                        <p>Cloud-based applications, serverless solutions, distributed systems, and cloud infrastructure tools.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h4>🌐 Internet of Things</h4>
+                        <p>Smart home systems, wearable technology, sensor networks, and connected device applications.</p>
+                    </div>
+                </div>
+
+                <p>Each area offers unique challenges and opportunities. Consider your interests, skills, available resources, and career goals when selecting your project area.</p>
+            </div>
+
+            <!-- Section 5: Good Capstone Project -->
+            <div class="section" id="section5">
+                <h2>V. Characteristics of a Good Capstone Project</h2>
+                
+                <p>Not all capstone projects are created equal. A successful capstone project should meet specific criteria that ensure it's both challenging and achievable.</p>
+
+                <h3>Essential Qualities</h3>
+                <div class="highlight-box">
+                    <ul>
+                        <li><strong>Realistic Scope:</strong> Ambitious enough to showcase skills but completable within the timeframe</li>
+                        <li><strong>Clear Objectives:</strong> Well-defined goals and measurable outcomes</li>
+                        <li><strong>Practical Value:</strong> Solves a real problem or addresses a genuine need</li>
+                        <li><strong>Technical Depth:</strong> Demonstrates substantial technical competency</li>
+                        <li><strong>Innovation:</strong> Shows creativity or improvement over existing solutions</li>
+                        <li><strong>Documentation:</strong> Includes comprehensive technical documentation</li>
+                        <li><strong>Usability:</strong> User-friendly and functional interface</li>
+                        <li><strong>Sustainability:</strong> Can be maintained or extended in the future</li>
+                    </ul>
+                </div>
+
+                <h3>Project Selection Tips</h3>
+                <p>When choosing your capstone project, ask yourself these questions:</p>
+                <ul>
+                    <li>Am I genuinely interested in this problem or domain?</li>
+                    <li>Do I have or can I acquire the necessary technical skills?</li>
+                    <li>Can I complete this project within the given timeframe?</li>
+                    <li>Are the required resources and tools available to me?</li>
+                    <li>Will this project enhance my portfolio and career prospects?</li>
+                    <li>Does it demonstrate multiple competencies from my program?</li>
+                    <li>Is there a real user or beneficiary for this project?</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h3>Red Flags to Avoid</h3>
+                    <ul>
+                        <li>Projects that are too simple or trivial</li>
+                        <li>Overly ambitious projects that can't be completed</li>
+                        <li>Projects with unclear or vague objectives</li>
+                        <li>Topics you have no interest in or knowledge about</li>
+                        <li>Projects requiring resources you don't have access to</li>
+                        <li>Simply replicating existing applications without innovation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="section" id="section6">
+                <h2>📝 Quiz 01: Introduction to Capstone</h2>
+                
+                <p>Test your understanding of the material covered in this lesson. You need to score at least 70% to pass.</p>
+
+                <div class="quiz-section">
+                    <div class="question">
+                        <h4>1. What is the primary focus of a capstone project?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q1" value="a">
+                                Conducting original research and publishing findings
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="b">
+                                Practical application of knowledge to solve real-world problems
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="c">
+                                Writing a lengthy academic paper with extensive citations
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q1" value="d">
+                                Memorizing theoretical concepts and definitions
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>2. Which programming language is commonly used for Android mobile development?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q2" value="a">
+                                Swift
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="b">
+                                PHP
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="c">
+                                Kotlin
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q2" value="d">
+                                Ruby
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>3. How does a capstone project differ from a thesis?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q3" value="a">
+                                Capstone focuses on practical application while thesis focuses on research
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="b">
+                                Capstone is longer and more complex than a thesis
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="c">
+                                Capstone requires more literature review than a thesis
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q3" value="d">
+                                There is no significant difference between them
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>4. Which of the following is NOT a typical capstone project area?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q4" value="a">
+                                Web Development
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="b">
+                                Artificial Intelligence
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="c">
+                                Medieval History Research
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q4" value="d">
+                                Internet of Things
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>5. What is an essential characteristic of a good capstone project?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q5" value="a">
+                                It must be the most complex project ever attempted
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="b">
+                                It should have a realistic scope that can be completed in the timeframe
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="c">
+                                It must use every programming language you've learned
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q5" value="d">
+                                It should avoid any innovation or creativity
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>6. Which statement best describes the purpose of a capstone project?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q6" value="a">
+                                To fulfill a course requirement with minimal effort
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q6" value="b">
+                                To demonstrate mastery and bridge academic learning with professional practice
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q6" value="c">
+                                To copy existing projects from online sources
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q6" value="d">
+                                To write as many pages of documentation as possible
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>7. When selecting a capstone project, which question should you ask yourself?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q7" value="a">
+                                Can I complete this by copying code from GitHub?
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q7" value="b">
+                                Will this enhance my portfolio and career prospects?
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q7" value="c">
+                                Is this the easiest possible project I can do?
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q7" value="d">
+                                Does everyone else want to do this project?
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>8. What type of outcome is expected from a capstone project?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q8" value="a">
+                                A published research paper in a peer-reviewed journal
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q8" value="b">
+                                A working product, system, or solution
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q8" value="c">
+                                A collection of theoretical equations
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q8" value="d">
+                                An extensive literature review only
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>9. Which is a red flag when choosing a capstone project?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q9" value="a">
+                                The project solves a real-world problem
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q9" value="b">
+                                The project has clear, measurable objectives
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q9" value="c">
+                                The project is overly ambitious and cannot be completed
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q9" value="d">
+                                The project demonstrates multiple competencies
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>10. What is the typical timeframe for completing a capstone project?</h4>
+                        <div class="options">
+                            <label class="option">
+                                <input type="radio" name="q10" value="a">
+                                One week
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q10" value="b">
+                                One or two semesters
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q10" value="c">
+                                Five years
+                            </label>
+                            <label class="option">
+                                <input type="radio" name="q10" value="d">
+                                One month
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-actions">
+                        <button class="submit-quiz" onclick="submitQuiz()">Submit Quiz</button>
+                    </div>
+
+                    <div class="results" id="results"></div>
+                </div>
+            </div>
+
+            <!-- Completion Section -->
+            <div class="section" id="section7">
+                <div class="completion-badge">
+                    <div class="badge">🎓</div>
+                    <h2>Congratulations!</h2>
+                    <p>You have completed the Introduction to Capstone lesson.</p>
+                    <p style="margin-top: 20px;">You are now ready to begin planning your capstone project. Remember to choose a project area that aligns with your interests and career goals!</p>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <button id="prevBtn" onclick="navigate(-1)">← Previous</button>
+                <button id="nextBtn" onclick="navigate(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 7;
+        const answers = {
+            q1: 'b', q2: 'c', q3: 'a', q4: 'c', q5: 'b',
+            q6: 'b', q7: 'b', q8: 'b', q9: 'c', q10: 'b'
+        };
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function navigate(direction) {
+            const sections = document.querySelectorAll('.section');
+            sections[currentSection - 1].classList.remove('active');
+            
+            currentSection += direction;
+            
+            if (currentSection < 1) currentSection = 1;
+            if (currentSection > totalSections) currentSection = totalSections;
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').style.display = currentSection === totalSections ? 'none' : 'block';
+            
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let total = 10;
+            let allAnswered = true;
+            
+            // Check if all questions are answered
+            for (let i = 1; i <= total; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            if (!allAnswered) {
+                alert('⚠️ Please answer all questions before submitting!');
+                return;
+            }
+            
+            // Grade the quiz and highlight answers
+            for (let i = 1; i <= total; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const correctAnswer = answers[`q${i}`];
+                const allOptions = document.querySelectorAll(`input[name="q${i}"]`);
+                
+                allOptions.forEach(option => {
+                    const label = option.parentElement;
+                    label.classList.add('disabled');
+                    
+                    if (option.value === correctAnswer) {
+                        label.classList.add('correct');
+                    }
+                    
+                    if (option.checked && option.value !== correctAnswer) {
+                        label.classList.add('incorrect');
+                    }
+                });
+                
+                if (selected && selected.value === correctAnswer) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / total) * 100;
+            const resultsDiv = document.getElementById('results');
+            const passed = percentage >= 70;
+            
+            resultsDiv.className = 'results show ' + (passed ? 'pass' : 'fail');
+            resultsDiv.innerHTML = `
+                <h3>${passed ? '✅ Congratulations! Quiz Passed!' : '❌ Quiz Not Passed'}</h3>
+                <p style="font-size: 1.5em; margin: 15px 0; font-weight: bold;">Score: ${score}/${total} (${percentage.toFixed(0)}%)</p>
+                <p style="font-size: 1.1em;">${passed ? 
+                    'Excellent work! You have demonstrated a good understanding of capstone projects. Click "Next" to proceed to the completion section.' : 
+                    'You need at least 70% to pass (7/10 correct). Review the incorrect answers highlighted in red above, then click "Retry Quiz" to try again.'
+                }</p>
+            `;
+            
+            // Update button visibility
+            const quizActions = document.querySelector('.quiz-actions');
+            if (passed) {
+                quizActions.innerHTML = '<button class="submit-quiz" onclick="resetQuiz()">Retry Quiz</button>';
+                document.getElementById('nextBtn').style.display = 'block';
+                document.getElementById('nextBtn').disabled = false;
+            } else {
+                quizActions.innerHTML = '<button class="retry-btn" onclick="resetQuiz()">Retry Quiz</button>';
+                document.getElementById('nextBtn').style.display = 'none';
+            }
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function resetQuiz() {
+            // Clear all selections
+            for (let i = 1; i <= 10; i++) {
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
+                options.forEach(option => {
+                    option.checked = false;
+                    const label = option.parentElement;
+                    label.classList.remove('correct', 'incorrect', 'disabled');
+                });
+            }
+            
+            // Hide results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.className = 'results';
+            resultsDiv.innerHTML = '';
+            
+            // Reset button
+            const quizActions = document.querySelector('.quiz-actions');
+            quizActions.innerHTML = '<button class="submit-quiz" onclick="submitQuiz()">Submit Quiz</button>';
+            
+            // Scroll to top of quiz
+            document.querySelector('.quiz-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.getElementById('prevBtn').disabled = true;
+        updateProgress();
+    </script>
+</body>
+</html>
