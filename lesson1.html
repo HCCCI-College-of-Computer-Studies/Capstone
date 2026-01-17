@@ -179,6 +179,49 @@
             margin: 25px 0;
         }
 
+        .pincode-overlay {
+            background: linear-gradient(135deg, #e3f2fd 0%, #b3e5fc 100%);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .pincode-overlay h3 {
+            color: #0f4c75;
+            margin-bottom: 20px;
+        }
+
+        .pincode-overlay p {
+            margin-bottom: 20px;
+        }
+
+        .pincode-input {
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border: 2px solid #3282b8;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .pincode-input:focus {
+            outline: none;
+            border-color: #0f4c75;
+            box-shadow: 0 0 10px rgba(15, 76, 117, 0.3);
+        }
+
+        .pincode-error {
+            color: #ef4444;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .quiz-content.hidden {
+            display: none;
+        }
+
         .question {
             margin-bottom: 30px;
         }
@@ -484,7 +527,15 @@
                 
                 <p>Test your understanding of the material covered in this lesson. You need to score at least 70% to pass.</p>
 
-                <div class="quiz-section">
+                <div class="pincode-overlay" id="pincodeOverlay">
+                    <h3>🔐 Enter Quiz Pincode</h3>
+                    <p>Please enter the pincode to access the quiz.</p>
+                    <input type="password" class="pincode-input" id="pincodeInput" placeholder="Enter pincode" maxlength="10">
+                    <button onclick="verifyPincode()">Unlock Quiz</button>
+                    <p class="pincode-error" id="pincodeError">❌ Incorrect pincode. Please try again.</p>
+                </div>
+
+                <div class="quiz-section quiz-content hidden" id="quizContent">
                     <div class="question">
                         <h4>1. What is the primary focus of a capstone project?</h4>
                         <div class="options">
@@ -738,6 +789,36 @@
             q1: 'b', q2: 'c', q3: 'a', q4: 'c', q5: 'b',
             q6: 'b', q7: 'b', q8: 'b', q9: 'c', q10: 'b'
         };
+        const QUIZ_PINCODE = '17350';
+
+        function verifyPincode() {
+            const input = document.getElementById('pincodeInput');
+            const error = document.getElementById('pincodeError');
+            const overlay = document.getElementById('pincodeOverlay');
+            const quizContent = document.getElementById('quizContent');
+            
+            if (input.value === QUIZ_PINCODE) {
+                overlay.style.display = 'none';
+                quizContent.classList.remove('hidden');
+                error.style.display = 'none';
+            } else {
+                error.style.display = 'block';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        // Allow Enter key to submit pincode
+        document.addEventListener('DOMContentLoaded', function() {
+            const pincodeInput = document.getElementById('pincodeInput');
+            if (pincodeInput) {
+                pincodeInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        verifyPincode();
+                    }
+                });
+            }
+        });
 
         function updateProgress() {
             const progress = (currentSection / totalSections) * 100;
