@@ -1459,9 +1459,12 @@
                 </div>
             `;
 
-            // Generate filename
-            const filename = studentName !== '_______________' 
-                ? `Domain_Problem_Scoping_${studentName.replace(/\s+/g, '_')}.pdf`
+            // Generate filename with sanitization to prevent security issues
+            let safeStudentName = studentName !== '_______________' 
+                ? studentName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_').substring(0, 50)
+                : '';
+            const filename = safeStudentName 
+                ? `Domain_Problem_Scoping_${safeStudentName}.pdf`
                 : 'Domain_Problem_Scoping_Activity.pdf';
 
             // PDF options
