@@ -1487,7 +1487,15 @@
             // Generate and download PDF, then clean up
             html2pdf().set(opt).from(pdfContent).save().then(function() {
                 // Remove the temporary element after PDF generation
-                document.body.removeChild(pdfContent);
+                if (pdfContent.parentNode) {
+                    pdfContent.parentNode.removeChild(pdfContent);
+                }
+            }).catch(function(error) {
+                // Handle error and ensure cleanup
+                console.error('PDF generation failed:', error);
+                if (pdfContent.parentNode) {
+                    pdfContent.parentNode.removeChild(pdfContent);
+                }
             });
         }
     </script>
