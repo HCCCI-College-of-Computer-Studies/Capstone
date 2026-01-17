@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Introduction to Capstone</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -334,6 +335,216 @@
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
+        }
+
+        /* Activity Section Styles */
+        .activity-container {
+            background: #f9fafb;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .activity-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .activity-header h3 {
+            color: #0f4c75;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .activity-header p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .activity-instructions {
+            background: linear-gradient(135deg, #e3f2fd 0%, #b3e5fc 100%);
+            border-left: 5px solid #0f4c75;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .activity-instructions h4 {
+            color: #0f4c75;
+            margin-bottom: 15px;
+        }
+
+        .activity-instructions ol, .activity-instructions ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .activity-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3282b8;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .problem-card {
+            background: white;
+            border: 2px solid #3282b8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .problem-card h4 {
+            color: #0f4c75;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problem-number {
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+
+        .rubric-table th,
+        .rubric-table td {
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .rubric-table th {
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            color: white;
+        }
+
+        .rubric-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .important-rules {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-rules h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .important-rules ul {
+            margin-left: 20px;
+        }
+
+        .important-rules li {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .activity-actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        /* PDF-specific styles */
+        .pdf-content {
+            background: white;
+            padding: 20px;
+        }
+
+        .pdf-content .activity-header {
+            border-bottom: 2px solid #333;
+        }
+
+        @media print {
+            .activity-container {
+                padding: 0;
+            }
+            .download-btn {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -765,8 +976,207 @@
                 </div>
             </div>
 
-            <!-- Completion Section -->
+            <!-- Activity Section -->
             <div class="section" id="section7">
+                <h2>📝 Activity: Domain Problem Scoping</h2>
+                
+                <div class="activity-container">
+                    <div class="activity-header">
+                        <h3>Activity Handout: Domain Problem Scoping</h3>
+                        <p><strong>Course:</strong> CAP 01 - Capstone Project 1</p>
+                        <p><strong>Week:</strong> 2</p>
+                        <p><strong>Activity Title:</strong> Problem Identification and Domain Analysis</p>
+                        <p><strong>Format:</strong> Individual Submission</p>
+                        <p><strong>Due Date:</strong> End of Laboratory Session</p>
+                    </div>
+
+                    <div class="activity-instructions">
+                        <h4>I. Instructions</h4>
+                        <p><strong>Context:</strong> A successful Capstone Project begins not with a "solution" (e.g., "I want to make an app"), but with a "problem" (e.g., "Patients wait 4 hours because files are manual"). Your goal in this activity is to observe the world around you, select a target domain, and identify specific inefficiencies that Information Technology can solve.</p>
+                        
+                        <h4 style="margin-top: 20px;">The Task</h4>
+                        <ol>
+                            <li><strong>Select a Domain:</strong> Choose ONE (1) realistic domain from the list:
+                                <ul style="margin-top: 10px;">
+                                    <li>Educational Institution (e.g., A specific school, college office, or library)</li>
+                                    <li>Healthcare Facility (e.g., A local clinic, pharmacy, or barangay health center)</li>
+                                    <li>Local Business (e.g., A grocery store, hardware supply, restaurant, or rental service)</li>
+                                    <li>Government Unit (e.g., Barangay hall, municipal office, police station)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Identify Three Problems:</strong> For your chosen domain, list THREE (3) distinct operational problems. These must be manual processes that are slow, error-prone, or insecure.</li>
+                            <li><strong>Propose Potential Solutions:</strong> For each problem, suggest a high-level IT solution (e.g., Web App, Mobile App, Kiosk).</li>
+                            <li><strong>Justify:</strong> Explain why this needs to be solved. (Is it costing money? Wasting time? Losing data?)</li>
+                        </ol>
+                    </div>
+
+                    <div id="activityForm">
+                        <h3 style="color: #0f4c75; margin: 30px 0 20px;">II. Submission Form</h3>
+                        
+                        <div class="form-group">
+                            <label for="studentName">Student Name:</label>
+                            <input type="text" id="studentName" placeholder="Enter your full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="section">Section:</label>
+                            <input type="text" id="section" placeholder="Enter your section">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activityDate">Date:</label>
+                            <input type="date" id="activityDate">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="chosenDomain">Chosen Domain:</label>
+                            <select id="chosenDomain">
+                                <option value="">-- Select a Domain --</option>
+                                <option value="Educational Institution">Educational Institution</option>
+                                <option value="Healthcare Facility">Healthcare Facility</option>
+                                <option value="Local Business">Local Business</option>
+                                <option value="Government Unit">Government Unit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="domainSpecific">Specific Location/Name (e.g., St. Jude Community Clinic):</label>
+                            <input type="text" id="domainSpecific" placeholder="Enter the specific name of your chosen domain">
+                        </div>
+
+                        <!-- Problem 1 -->
+                        <div class="problem-card">
+                            <h4><span class="problem-number">1</span> Problem 1</h4>
+                            
+                            <div class="form-group">
+                                <label for="problem1Title">Title:</label>
+                                <input type="text" id="problem1Title" placeholder="e.g., Manual Patient Record Retrieval">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem1Description">Description:</label>
+                                <textarea id="problem1Description" placeholder="Describe the current manual process. e.g., 'Nurses currently search through physical filing cabinets for patient history. This takes 15-20 minutes per patient and files are often misplaced.'"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem1Solution">Proposed IT Solution:</label>
+                                <input type="text" id="problem1Solution" placeholder="e.g., Local Area Network (LAN) Patient Information System with Search Indexing">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem1Users">Target Users:</label>
+                                <input type="text" id="problem1Users" placeholder="e.g., Nurses and Doctor">
+                            </div>
+                        </div>
+
+                        <!-- Problem 2 -->
+                        <div class="problem-card">
+                            <h4><span class="problem-number">2</span> Problem 2</h4>
+                            
+                            <div class="form-group">
+                                <label for="problem2Title">Title:</label>
+                                <input type="text" id="problem2Title" placeholder="Enter problem title">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem2Description">Description:</label>
+                                <textarea id="problem2Description" placeholder="Describe the current manual process and its inefficiencies"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem2Solution">Proposed IT Solution:</label>
+                                <input type="text" id="problem2Solution" placeholder="Enter your proposed IT solution">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem2Users">Target Users:</label>
+                                <input type="text" id="problem2Users" placeholder="Enter target users">
+                            </div>
+                        </div>
+
+                        <!-- Problem 3 -->
+                        <div class="problem-card">
+                            <h4><span class="problem-number">3</span> Problem 3</h4>
+                            
+                            <div class="form-group">
+                                <label for="problem3Title">Title:</label>
+                                <input type="text" id="problem3Title" placeholder="Enter problem title">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem3Description">Description:</label>
+                                <textarea id="problem3Description" placeholder="Describe the current manual process and its inefficiencies"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem3Solution">Proposed IT Solution:</label>
+                                <input type="text" id="problem3Solution" placeholder="Enter your proposed IT solution">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="problem3Users">Target Users:</label>
+                                <input type="text" id="problem3Users" placeholder="Enter target users">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #0f4c75; margin: 30px 0 20px;">III. Grading Rubric (20 Points)</h3>
+                    <table class="rubric-table">
+                        <thead>
+                            <tr>
+                                <th>Criteria</th>
+                                <th>Excellent (5 pts)</th>
+                                <th>Good (3 pts)</th>
+                                <th>Needs Improvement (1 pt)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Problem Clarity</strong></td>
+                                <td>The problem is specific, localized, and clearly describes a "pain point" (inefficiency).</td>
+                                <td>The problem is stated but somewhat generic (e.g., "It is slow").</td>
+                                <td>The problem is vague or not actually a problem (e.g., "They don't have an app").</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Relevance to BSIT/IS</strong></td>
+                                <td>The problem is solvable by an IT solution (System/Software).</td>
+                                <td>The problem is partially solvable by IT but involves too much hardware or policy change.</td>
+                                <td>The problem is not IT-related (e.g., "Not enough staff").</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Solution Feasibility</strong></td>
+                                <td>The proposed solution is realistic for a student Capstone project.</td>
+                                <td>The solution is slightly too simple or too ambitious.</td>
+                                <td>The solution is impossible (e.g., "Build a satellite") or trivial (e.g., "Excel sheet").</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Variety</strong></td>
+                                <td>3 distinct problems are identified.</td>
+                                <td>2 distinct problems are identified.</td>
+                                <td>Only 1 problem identified or problems are repetitions.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="important-rules">
+                        <h4>⚠️ IV. Important Rules</h4>
+                        <ul>
+                            <li><strong>No AI Generation:</strong> Your problem descriptions must reference real-world observations. Generic, AI-generated text will receive a grade of 0.</li>
+                            <li><strong>No "Inventory Systems" without Context:</strong> Do not just write "Inventory System." You must explain what is being counted and why the current counting method is failing.</li>
+                            <li><strong>Defensibility:</strong> Be prepared to answer why you chose these problems during the class wrap-up.</li>
+                        </ul>
+                    </div>
+
+                    <div class="activity-actions">
+                        <button class="download-btn" onclick="downloadActivityPDF()">
+                            📥 Download as PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completion Section -->
+            <div class="section" id="section8">
                 <div class="completion-badge">
                     <div class="badge">🎓</div>
                     <h2>Congratulations!</h2>
@@ -785,7 +1195,7 @@
 
     <script>
         let currentSection = 1;
-        const totalSections = 7;
+        const totalSections = 8;
         const answers = {
             q1: 'b', q2: 'c', q3: 'a', q4: 'c', q5: 'b',
             q6: 'b', q7: 'b', q8: 'b', q9: 'c', q10: 'b'
@@ -943,6 +1353,132 @@
         // Initialize
         document.getElementById('prevBtn').disabled = true;
         updateProgress();
+
+        // Download Activity as PDF
+        function downloadActivityPDF() {
+            // Get form values
+            const studentName = document.getElementById('studentName').value || '_______________';
+            const section = document.getElementById('section').value || '_______________';
+            const activityDate = document.getElementById('activityDate').value || '_______________';
+            const chosenDomain = document.getElementById('chosenDomain').value || '_______________';
+            const domainSpecific = document.getElementById('domainSpecific').value || '_______________';
+            
+            const problem1Title = document.getElementById('problem1Title').value || '_______________';
+            const problem1Description = document.getElementById('problem1Description').value || '_______________';
+            const problem1Solution = document.getElementById('problem1Solution').value || '_______________';
+            const problem1Users = document.getElementById('problem1Users').value || '_______________';
+            
+            const problem2Title = document.getElementById('problem2Title').value || '_______________';
+            const problem2Description = document.getElementById('problem2Description').value || '_______________';
+            const problem2Solution = document.getElementById('problem2Solution').value || '_______________';
+            const problem2Users = document.getElementById('problem2Users').value || '_______________';
+            
+            const problem3Title = document.getElementById('problem3Title').value || '_______________';
+            const problem3Description = document.getElementById('problem3Description').value || '_______________';
+            const problem3Solution = document.getElementById('problem3Solution').value || '_______________';
+            const problem3Users = document.getElementById('problem3Users').value || '_______________';
+
+            // Create PDF content
+            const pdfContent = document.createElement('div');
+            pdfContent.innerHTML = `
+                <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto;">
+                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px;">
+                        <h2 style="margin: 0; color: #0f4c75;">Activity Handout: Domain Problem Scoping</h2>
+                        <p style="margin: 10px 0 5px;"><strong>Course:</strong> CAP 01 - Capstone Project 1</p>
+                        <p style="margin: 5px 0;"><strong>Week:</strong> 2</p>
+                        <p style="margin: 5px 0;"><strong>Activity Title:</strong> Problem Identification and Domain Analysis</p>
+                        <p style="margin: 5px 0;"><strong>Format:</strong> Individual Submission</p>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <p><strong>Student Name:</strong> ${studentName}</p>
+                        <p><strong>Section:</strong> ${section}</p>
+                        <p><strong>Date:</strong> ${activityDate}</p>
+                        <p><strong>Chosen Domain:</strong> ${chosenDomain} - ${domainSpecific}</p>
+                    </div>
+
+                    <div style="border: 2px solid #3282b8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h3 style="color: #0f4c75; margin-top: 0;">Problem 1</h3>
+                        <p><strong>Title:</strong> ${problem1Title}</p>
+                        <p><strong>Description:</strong> ${problem1Description}</p>
+                        <p><strong>Proposed IT Solution:</strong> ${problem1Solution}</p>
+                        <p><strong>Target Users:</strong> ${problem1Users}</p>
+                    </div>
+
+                    <div style="border: 2px solid #3282b8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h3 style="color: #0f4c75; margin-top: 0;">Problem 2</h3>
+                        <p><strong>Title:</strong> ${problem2Title}</p>
+                        <p><strong>Description:</strong> ${problem2Description}</p>
+                        <p><strong>Proposed IT Solution:</strong> ${problem2Solution}</p>
+                        <p><strong>Target Users:</strong> ${problem2Users}</p>
+                    </div>
+
+                    <div style="border: 2px solid #3282b8; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h3 style="color: #0f4c75; margin-top: 0;">Problem 3</h3>
+                        <p><strong>Title:</strong> ${problem3Title}</p>
+                        <p><strong>Description:</strong> ${problem3Description}</p>
+                        <p><strong>Proposed IT Solution:</strong> ${problem3Solution}</p>
+                        <p><strong>Target Users:</strong> ${problem3Users}</p>
+                    </div>
+
+                    <div style="margin-top: 30px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+                        <h4 style="margin-top: 0; color: #856404;">Grading Rubric (20 Points)</h4>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                            <tr style="background: #0f4c75; color: white;">
+                                <th style="border: 1px solid #ddd; padding: 8px;">Criteria</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Excellent (5 pts)</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Good (3 pts)</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Needs Improvement (1 pt)</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px;"><strong>Problem Clarity</strong></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Specific, localized, clearly describes inefficiency</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Somewhat generic</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Vague or not a problem</td>
+                            </tr>
+                            <tr style="background: #f9f9f9;">
+                                <td style="border: 1px solid #ddd; padding: 8px;"><strong>Relevance to BSIT/IS</strong></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Solvable by IT solution</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Partially solvable by IT</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Not IT-related</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px;"><strong>Solution Feasibility</strong></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Realistic for student project</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Too simple or ambitious</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">Impossible or trivial</td>
+                            </tr>
+                            <tr style="background: #f9f9f9;">
+                                <td style="border: 1px solid #ddd; padding: 8px;"><strong>Variety</strong></td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">3 distinct problems</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">2 distinct problems</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">1 or repetitive problems</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            // Generate filename with sanitization to prevent security issues
+            let safeStudentName = studentName !== '_______________' 
+                ? studentName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_').substring(0, 50)
+                : '';
+            const filename = safeStudentName 
+                ? `Domain_Problem_Scoping_${safeStudentName}.pdf`
+                : 'Domain_Problem_Scoping_Activity.pdf';
+
+            // PDF options
+            const opt = {
+                margin: 10,
+                filename: filename,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate and download PDF
+            html2pdf().set(opt).from(pdfContent).save();
+        }
     </script>
 </body>
 </html>
